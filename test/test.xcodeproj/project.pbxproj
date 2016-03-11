@@ -15,6 +15,7 @@
 		7C7F7ACD1C92BC1200903D62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C7F7ACB1C92BC1200903D62 /* LaunchScreen.storyboard */; };
 		7C7F7AD81C92BC1200903D62 /* testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F7AD71C92BC1200903D62 /* testTests.m */; };
 		7C7F7AE31C92BC1200903D62 /* testUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F7AE21C92BC1200903D62 /* testUITests.m */; };
+		7C7F7AF51C92C1D700903D62 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F7AF41C92C1D700903D62 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		7C7F7ADE1C92BC1200903D62 /* testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7F7AE21C92BC1200903D62 /* testUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testUITests.m; sourceTree = "<group>"; };
 		7C7F7AE41C92BC1200903D62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C7F7AF31C92C1D700903D62 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
+		7C7F7AF41C92C1D700903D62 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 				7C7F7AC11C92BC1200903D62 /* AppDelegate.m */,
 				7C7F7AC31C92BC1200903D62 /* ViewController.h */,
 				7C7F7AC41C92BC1200903D62 /* ViewController.m */,
+				7C7F7AF31C92C1D700903D62 /* LoginViewController.h */,
+				7C7F7AF41C92C1D700903D62 /* LoginViewController.m */,
 				7C7F7AC61C92BC1200903D62 /* Main.storyboard */,
 				7C7F7AC91C92BC1200903D62 /* Assets.xcassets */,
 				7C7F7ACB1C92BC1200903D62 /* LaunchScreen.storyboard */,
@@ -270,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7F7AF51C92C1D700903D62 /* LoginViewController.m in Sources */,
 				7C7F7AC51C92BC1200903D62 /* ViewController.m in Sources */,
 				7C7F7AC21C92BC1200903D62 /* AppDelegate.m in Sources */,
 				7C7F7ABF1C92BC1200903D62 /* main.m in Sources */,
