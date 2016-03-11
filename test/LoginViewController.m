@@ -17,7 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //这个是登录
     
     self.view.backgroundColor = [UIColor redColor];
     
