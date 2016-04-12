@@ -1,18 +1,18 @@
 //
-//  testTests.m
-//  testTests
+//  NSCalendarTests.m
+//  NSCalendarTests
 //
-//  Created by ZhengXiangteng on 16/3/11.
+//  Created by ZhengXiangteng on 16/4/11.
 //  Copyright © 2016年 前辈丶. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface testTests : XCTestCase
+@interface NSCalendarTests : XCTestCase
 
 @end
 
-@implementation testTests
+@implementation NSCalendarTests
 
 - (void)setUp {
     [super setUp];
