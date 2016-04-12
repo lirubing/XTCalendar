@@ -18,32 +18,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    // Do any additional setup after loading the view.
-//    XTDateViewController *vc = [[XTDateViewController alloc]init];
-//    self.vc = vc;
+    
 }
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+
     
-    [UIView animateWithDuration:0.25 animations:^{
-        self.view.backgroundColor = [UIColor lightGrayColor];
-    }];
     XTDateViewController *vc = [[XTDateViewController alloc]init];
 
     vc.finishBlock = ^(XTDate startDate,XTDate endDate,int day){
         NSLog(@"开始时间:%ld-%ld-%ld",startDate.year,startDate.month,startDate.day);
         NSLog(@"结束时间:%ld-%ld-%ld",endDate.year,endDate.month,endDate.day);
         NSLog(@"总共:%i天",day);
-        self.view.backgroundColor = [UIColor whiteColor];
+
     };
     [vc show];
-
-}
-- (IBAction)BUTTON:(id)sender {
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

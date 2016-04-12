@@ -9,23 +9,31 @@
 #import "XTDateViewController.h"
 #import "XTMonthCell.h"
 #import "AppDelegate.h"
+#import "XTHeaderView.h"
 #define XTColor(r, g, b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1.0f]
 
 XTDate endDate;
 XTDate startDate;
 
-@interface XTDateViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface XTDateViewController ()<UITableViewDataSource,UITableViewDelegate,XTHeaderViewDetegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 /** 今天 */
 @property (nonatomic, strong) NSDate *today;
 /** 日期组件 */
 @property (nonatomic, strong) NSDateComponents *dateComponents;
+/** 存放collection行数的字典 */
+@property (nonatomic, strong) NSMutableDictionary *collectionNumDic;
 
 @end
 
 @implementation XTDateViewController
-
+- (NSMutableDictionary *)collectionNumDic{
+    if (!_collectionNumDic) {
+        _collectionNumDic = [NSMutableDictionary dictionary];
+    }
+    return _collectionNumDic;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -49,26 +57,29 @@ XTDate startDate;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
     return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     XTMonthCell *cell = [XTMonthCell cellWithTableView:tableView];
+    cell.backgroundColor = [UIColor orangeColor];
     cell.todayDate = self.today;
     self.dateComponents.month = +indexPath.row;
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:self.dateComponents toDate:self.today options:0];
     cell.date = newDate;
-
     
+    [cell layoutIfNeeded];
+    self.collectionNumDic[@(indexPath.row)] = @(cell.calendar.num);
+//    NSLog(@"%ld",cell.calendar.num);
+
     __weak typeof(self) weakSelf = self;
     cell.calendar.calendarBlock = ^(XTDate date) {
         //如果当前的选择的日期 
         if (date.year == startDate.year && date.month == startDate.month && date.day == startDate.day) {
-            [weakSelf clear];
+            [weakSelf clearWithChooseDate];
         }else if (startDate.day>0 && endDate.day>0) {
-            [weakSelf clear];
+            [weakSelf clearWithChooseDate];
             startDate = date;
         }else{
             if (startDate.day) {
@@ -83,43 +94,33 @@ XTDate startDate;
     return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UIButton *clearBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    clearBtn.frame = CGRectMake(10, 0, 40, 40);
-    [clearBtn setTitle:@"清除" forState:UIControlStateNormal];
-    clearBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [clearBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [clearBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [clearBtn addTarget:self action:@selector(clear) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:clearBtn];
-    
-    UIButton *finishBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    finishBtn.frame = CGRectMake(tableView.bounds.size.width-60, 0, 40, 40);
-    [finishBtn setTitle:@"完成" forState:UIControlStateNormal];
-    finishBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [finishBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [finishBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [finishBtn addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:finishBtn];
-    
-    UILabel *titleLable = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(clearBtn.frame)+10, 0, self.tableView.bounds.size.width-120, 40)];
-    titleLable.text = @"请选择入住日期";
-    titleLable.textColor = [UIColor blackColor];
-    titleLable.textAlignment = NSTextAlignmentCenter;
-    titleLable.adjustsFontSizeToFitWidth = YES;
-    [headerView addSubview:titleLable];
-    return headerView;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+//    NSInteger num = [self.collectionNumDic[@(indexPath.row)] integerValue];
+//    NSLog(@"%ld",num);
+//    if (num > 35) {
+//        return 250;
+//    }else{
+//        return 200;
+//    }
     return 250;
 }
 
-- (void)clear{
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 250;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    XTHeaderView *headerView = [XTHeaderView headerView];
+    headerView.delegate = self;
+    return headerView;
+}
+
+
+
+#pragma mark - XTHeaderViewDetegate
+- (void)clearWithChooseDate{
     
     startDate.day = 0;
     startDate.month = 0;
@@ -129,8 +130,7 @@ XTDate startDate;
     endDate.year = 0;
     [self.tableView reloadData];
 }
-
-- (void)finish{
+- (void)finishWithChooseDate{
     
     NSString *startY = [NSString stringWithFormat:@"%ld",startDate.year];
     NSString *startM = [NSString stringWithFormat:@"-%ld",startDate.month];
@@ -156,20 +156,20 @@ XTDate startDate;
     
     int days=((int)time)/(3600*24);
     int hours=((int)time)%(3600*24)/3600;
-//    NSString *dateContent=[[NSString alloc] initWithFormat:@"%i天%i小时",days,hours];
+    //    NSString *dateContent=[[NSString alloc] initWithFormat:@"%i天%i小时",days,hours];
     
     if (self.finishBlock) {
         self.finishBlock(startDate,endDate,days);
         
     }
-//    if (startDate.day != 0 && endDate.day != 0) {
-//    }
-    [self clear];
+    //    if (startDate.day != 0 && endDate.day != 0) {
+    //    }
+    [self clearWithChooseDate];
     [self hiden];
     
-    
-    
 }
+
+
 
 - (void)show{
     
@@ -178,17 +178,17 @@ XTDate startDate;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0 ) {
         self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         [delegate.window.rootViewController presentViewController:self animated:YES completion:^{
-//            [UIView animateWithDuration:0.25 animations:^{
-//                self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
-//            }];
+            [UIView animateWithDuration:0.25 animations:^{
+                self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+            }];
             
         }];
     }else{
         self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
         [delegate.window.rootViewController presentViewController:self animated:YES completion:^{
-//            [UIView animateWithDuration:0.25 animations:^{
-//                self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
-//            }];
+            [UIView animateWithDuration:0.25 animations:^{
+                self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+            }];
         }];
         self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     }

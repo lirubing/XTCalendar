@@ -97,7 +97,8 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    
+//    NSLog(@"%ld",[self daysForThisMonth]);
+    self.num = [self daysForThisMonth];
     return [self daysForThisMonth];
 }
 

@@ -19,7 +19,7 @@
 @implementation XTCalendarCell
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self == [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor cyanColor];
         UIView *statusView = [[UIView alloc] initWithFrame:CGRectMake(2, 2, self.bounds.size.width-4, self.bounds.size.height-4)];
         statusView.backgroundColor = [UIColor redColor];
         statusView.alpha = 0.0f;
@@ -30,6 +30,7 @@
         self.lable = lable;
         lable.textAlignment = NSTextAlignmentCenter;
         lable.adjustsFontSizeToFitWidth = YES;
+        lable.font = [UIFont systemFontOfSize:14];
         lable.textColor = [UIColor blackColor];
         [self.contentView addSubview:lable];
 

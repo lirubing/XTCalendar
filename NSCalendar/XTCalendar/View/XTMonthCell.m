@@ -27,8 +27,14 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-
-        XTCalendarView *calendarView = [[XTCalendarView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-100, 250)];
+        XTCalendarView *calendarView = [[XTCalendarView alloc] init];
+//        XTCalendarView *calendarView = [[XTCalendarView alloc]  initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-100, 250)];
+        calendarView.backgroundColor = [UIColor redColor];
+        if (self.calendar.num > 35) {
+            calendarView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-100, 250);
+        }else{
+            calendarView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-100, 200);
+        }
         self.calendar = calendarView;
         [self.contentView addSubview:calendarView];
         

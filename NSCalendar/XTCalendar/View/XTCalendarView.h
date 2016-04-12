@@ -21,4 +21,6 @@ typedef struct {
 @property (nonatomic, strong) NSDate *todayDate;
 /** 日期 */
 @property (nonatomic, copy) void(^calendarBlock)(XTDate date);
+/** collection行数 */
+@property (nonatomic , assign) NSInteger num;
 @end
